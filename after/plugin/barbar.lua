@@ -1,5 +1,5 @@
 local map = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
+local opts = { noremap = false, silent = true }
 
 require('barbar').setup {
   -- WARN: do not copy everything below into your config!
@@ -158,6 +158,8 @@ map('n', '<A-0>', '<Cmd>BufferLast<CR>', opts)
 map('n', '<A-p>', '<Cmd>BufferPin<CR>', opts)
 -- Close buffer
 map('n', '<A-c>', '<Cmd>BufferClose<CR>', opts)
+-- Close other (not pinned)
+map('n', '<A-x>', '<Cmd>BufferCloseAllButCurrentOrPinned<CR>', opts)
 -- Wipeout buffer
 --                 :BufferWipeout
 -- Close commands
