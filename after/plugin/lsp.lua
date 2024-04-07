@@ -10,9 +10,7 @@ lsp_zero.on_attach(function(client, bufnr)
   vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
   vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
   vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
-  vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
-  vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
-  vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
+  vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end)
 
@@ -20,7 +18,13 @@ end)
 -- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = {'tsserver', 'rust_analyzer', 'eslint'},
+  ensure_installed = {
+    'tsserver', -- Js and Ts
+    'rust_analyzer', -- Rust
+    'eslint', -- ESlint
+    'intelephense', -- PHP language server.
+    'docker_compose_language_service', -- Docker Compose Language Server.
+  },
   handlers = {
     lsp_zero.default_setup,
     lua_ls = function()
@@ -54,3 +58,17 @@ cmp.setup({
     ['<C-Space>'] = cmp.mapping.complete(),
   }),
 })
+
+-- https://github.com/MannyFay/nvim/blob/main/nvim/lua/user/plugin_options/lspconfig.lua#L48
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+require('lspconfig').intelephense.setup({
+  on_attach = function(client, bufnr)
+    on_attach(client, bufnr)
+    -- client.server_capabilities.documentFormattingProvider      = false
+    -- client.server_capabilities.documentRangeFormattingProvider = false
+  end,
+  capabilities = capabilities,
+  environment = {phpVersion = '8.0.0'},
+})
+
