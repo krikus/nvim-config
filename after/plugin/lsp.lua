@@ -72,3 +72,31 @@ require('lspconfig').intelephense.setup({
   environment = {phpVersion = '8.0.0'},
 })
 
+require('lspconfig').rust_analyzer.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = {
+    -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
+    ["rust-analyzer"] = {
+      cargo = {
+        allFeatures = true
+      },
+      check = {
+        command = "clippy",
+      },
+      diagnostics = {
+        enable = true,
+        enableExperimental = true,
+      },
+      imports = {
+        granularity = {
+          group = "module",
+        },
+        prefix = "self",
+      },
+      procMacro = {
+        enable = true
+      },
+    }
+  }
+})

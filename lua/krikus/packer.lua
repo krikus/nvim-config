@@ -151,5 +151,12 @@ return require('packer').startup(function(use)
     end
   })
 
+  use({
+    'rust-lang/rust.vim',
+    ft = 'rust',
+    config = function()
+      vim.g.rustfmt_autosave = 1
+    end
+  })
 
 end)
