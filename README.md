@@ -2,6 +2,7 @@
 ## Requirements
 - Fresh version of nvim
 - fonts
+- ripgrep
 
 ```
 brew tap homebrew/cask-fonts

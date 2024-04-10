@@ -2,7 +2,19 @@ vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
-
+  use {
+    'mcauley-penney/visual-whitespace.nvim',
+    config = function()
+      require('visual-whitespace').setup({
+        opts = {
+          highlight = { link = 'Visual' },
+          space_char = '.',
+          tab_char = '→',
+          nl_char = '↵',
+        }
+      })
+    end
+  }
   use {
     'nvim-telescope/telescope.nvim', tag = '0.1.6',
     -- or                            , branch = '0.1.x',
