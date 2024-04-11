@@ -3,6 +3,16 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use {
+    'm4xshen/smartcolumn.nvim',
+    config = function()
+      require('smartcolumn').setup({
+        colorcolumn = "120",
+        disabled_filetypes = { "help", "text", "markdown", "NvimTree", "lazy", "mason", "help", "checkhealth", "lspinfo", "noice", "Trouble", "fish", "zsh" },
+        scope = "file",
+      })
+    end
+  }
+  use {
     'mcauley-penney/visual-whitespace.nvim',
     config = function()
       require('visual-whitespace').setup({
