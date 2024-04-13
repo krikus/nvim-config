@@ -1,0 +1,5 @@
+JS
+TS
+nvim
+documentFormattingProvider
+documentRangeFormattingProvider
