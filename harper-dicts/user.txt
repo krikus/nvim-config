@@ -1,5 +1,10 @@
 JS
 TS
+LSP
 nvim
+neovim
+macchiato
+colorscheme
+Autocompletion
 documentFormattingProvider
 documentRangeFormattingProvider
