@@ -76,6 +76,7 @@ local config_path = vim.fn.stdpath('config')
 
 vim.api.nvim_create_autocmd('User', {
   pattern = 'MasonToolsUpdateCompleted',
+---@diagnostic disable-next-line: unused-local
   callback = function(e)
     vim.schedule(function()
       lspconfig.harper_ls.setup {
@@ -99,13 +100,13 @@ vim.api.nvim_create_autocmd('User', {
           }
         }
       }
-      print(vim.inspect(e.data)) -- print the table that lists the programs that were installed
+      -- print(vim.inspect(e.data)) -- print the table that lists the programs that were installed
     end)
   end,
 })
 
 
---- lets try putting this as last :)
+--- lets try putting this as last
 require('mason').setup({})
 require('mason-lspconfig').setup({
   ensure_installed = {
@@ -127,7 +128,16 @@ require('mason-lspconfig').setup({
         settings = {
           workingDirectory = { mode = 'location' },
         },
-        root_dir = require('lspconfig/util').root_pattern('package.json', 'tsconfig.json', 'jsconfig.json', '.git', 'eslintrc.js', 'eslint.js', 'node_modules'),
+        root_dir = require('lspconfig/util')
+          .root_pattern(
+            'package.json',
+            'tsconfig.json',
+            'jsconfig.json',
+            '.git',
+            'eslintrc.js',
+            'eslint.js',
+            'node_modules'
+          ),
       })
     end,
   }

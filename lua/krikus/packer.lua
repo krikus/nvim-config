@@ -3,6 +3,7 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'WhoIsSethDaniel/mason-tool-installer.nvim'
+  use "lukas-reineke/indent-blankline.nvim"
   use {
     'm4xshen/smartcolumn.nvim',
     config = function()
