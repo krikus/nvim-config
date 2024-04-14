@@ -14,6 +14,8 @@ vim.g.indent_blankline_use_treesitter = true
 --   end
 -- })
 
+vim.keymap.set("n", "<leader>vl", ":IBLToggle<CR>")
+
 local highlight = {
     "RainbowRed",
     "RainbowYellow",

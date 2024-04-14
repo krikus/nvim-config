@@ -11,3 +11,10 @@ vim.opt.expandtab = true
 vim.opt.smartindent = true
 
 vim.g.mapleader = " "
+
+vim.opt.scrolloff = 5
+
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.undodir = vim.fn.stdpath('data') .. '/undodir'
+vim.opt.undofile = true

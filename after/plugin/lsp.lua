@@ -23,7 +23,6 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protoc
 
 require('mason-tool-installer').setup({
   ensure_installed = {
-    -- 'eslint_d',
     'harper-ls'
   }
 })
@@ -76,7 +75,6 @@ local config_path = vim.fn.stdpath('config')
 
 vim.api.nvim_create_autocmd('User', {
   pattern = 'MasonToolsUpdateCompleted',
----@diagnostic disable-next-line: unused-local
   callback = function(e)
     vim.schedule(function()
       lspconfig.harper_ls.setup {
@@ -100,7 +98,11 @@ vim.api.nvim_create_autocmd('User', {
           }
         }
       }
-      -- print(vim.inspect(e.data)) -- print the table that lists the programs that were installed
+      if e.data then
+        for _, v in pairs(e.data) do
+          print('installed: ' .. v)
+        end
+      end
     end)
   end,
 })
@@ -123,6 +125,20 @@ require('mason-lspconfig').setup({
       local lua_opts = lsp_zero.nvim_lua_ls()
       lspconfig.lua_ls.setup(lua_opts)
     end,
+    tsserver = function()
+      lspconfig.tsserver.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        root_dir = require('lspconfig/util')
+          .root_pattern(
+            'package.json',
+            'tsconfig.json',
+            'jsconfig.json',
+            '.git',
+            'node_modules'
+          ),
+      })
+    end,
     eslint = function()
       lspconfig.eslint.setup({
         settings = {
@@ -136,6 +152,7 @@ require('mason-lspconfig').setup({
             '.git',
             'eslintrc.js',
             'eslint.js',
+            '.eslintrc',
             'node_modules'
           ),
       })
