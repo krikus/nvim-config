@@ -1,8 +1,11 @@
 JS
 TS
 LSP
+len
 nvim
+FIXME
 neovim
+eslint
 macchiato
 colorscheme
 Autocompletion
