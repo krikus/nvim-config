@@ -23,7 +23,15 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protoc
 
 require('mason-tool-installer').setup({
   ensure_installed = {
-    'harper-ls'
+    'tsserver', -- JS and TS
+    'eslint',
+    'rust_analyzer', -- Rust
+    'intelephense', -- PHP language server.
+    'docker_compose_language_service', -- Docker Compose Language Server.
+    'lua_ls',
+    'harper-ls',
+    'phpcs',
+    'phpactor'
   }
 })
 -- to learn how to use mason.nvim with lsp-zero
@@ -34,11 +42,11 @@ require('mason-tool-installer').setup({
 lspconfig.intelephense.setup({
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
-    -- client.server_capabilities.documentFormattingProvider      = false
-    -- client.server_capabilities.documentRangeFormattingProvider = false
+    client.server_capabilities.documentFormattingProvider      = true
+    client.server_capabilities.documentRangeFormattingProvider = true
   end,
   capabilities = capabilities,
-  environment = {phpVersion = '8.0.0'},
+  environment = {phpVersion = '7.4.33'},
 })
 
 lspconfig.rust_analyzer.setup({
@@ -111,14 +119,6 @@ vim.api.nvim_create_autocmd('User', {
 --- lets try putting this as last
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = {
-    'tsserver', -- JS and TS
-    'eslint',
-    'rust_analyzer', -- Rust
-    'intelephense', -- PHP language server.
-    'docker_compose_language_service', -- Docker Compose Language Server.
-    'lua_ls',
-  },
   handlers = {
     lsp_zero.default_setup,
     lua_ls = function()
@@ -130,13 +130,13 @@ require('mason-lspconfig').setup({
         on_attach = on_attach,
         capabilities = capabilities,
         root_dir = require('lspconfig/util')
-          .root_pattern(
-            'package.json',
-            'tsconfig.json',
-            'jsconfig.json',
-            '.git',
-            'node_modules'
-          ),
+        .root_pattern(
+        'package.json',
+        'tsconfig.json',
+        'jsconfig.json',
+        '.git',
+        'node_modules'
+        ),
       })
     end,
     eslint = function()
@@ -145,16 +145,16 @@ require('mason-lspconfig').setup({
           workingDirectory = { mode = 'location' },
         },
         root_dir = require('lspconfig/util')
-          .root_pattern(
-            'package.json',
-            'tsconfig.json',
-            'jsconfig.json',
-            '.git',
-            'eslintrc.js',
-            'eslint.js',
-            '.eslintrc',
-            'node_modules'
-          ),
+        .root_pattern(
+        'package.json',
+        'tsconfig.json',
+        'jsconfig.json',
+        '.git',
+        'eslintrc.js',
+        'eslint.js',
+        '.eslintrc',
+        'node_modules'
+        ),
       })
     end,
   }

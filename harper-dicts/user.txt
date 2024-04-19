@@ -2,10 +2,12 @@ JS
 TS
 LSP
 len
+php
 nvim
 FIXME
 neovim
 eslint
+autocmd
 macchiato
 colorscheme
 Autocompletion
