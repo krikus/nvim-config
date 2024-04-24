@@ -186,3 +186,10 @@ cmp.setup({
     ['<C-Space>'] = cmp.mapping.complete(),
   }),
 })
+
+-- vim.lsp.handlers['textDocument/signatureHelp']  = vim.lsp.with(vim.lsp.handlers['signature_help'], {
+--     border = 'single',
+--     close_events = { "CursorMoved", "BufHidden" },
+-- })
+vim.keymap.set('i', '<c-k>', vim.lsp.buf.signature_help)
+
