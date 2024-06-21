@@ -25,8 +25,11 @@ require('mason-tool-installer').setup({
   ensure_installed = {
     'tsserver', -- JS and TS
     'eslint',
+    'fixjson',
     'rust_analyzer', -- Rust
     'intelephense', -- PHP language server.
+    'dockerfile-language-server',
+    'hadolint',
     'docker_compose_language_service', -- Docker Compose Language Server.
     'lua_ls',
     'harper-ls',
