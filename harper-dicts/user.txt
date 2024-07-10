@@ -6,6 +6,7 @@ len
 php
 nvim
 FIXME
+param
 neovim
 eslint
 autocmd

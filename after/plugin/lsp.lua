@@ -34,7 +34,9 @@ require('mason-tool-installer').setup({
     'lua_ls',
     'harper-ls',
     'phpcs',
-    'phpactor'
+    'phpactor',
+    'gopls',
+    'goimports-reviser'
   }
 })
 -- to learn how to use mason.nvim with lsp-zero

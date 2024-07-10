@@ -12,3 +12,9 @@ brew install ripgrep
 brew install gnu-sed
 brew install php@8.0 composer
 ```
+
+## Setup
+Just clone into empty path as follows:
+```
+git clone git@github.com:krikus/nvim-config.git ~/.config/nvim
+```
