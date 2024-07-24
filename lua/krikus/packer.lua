@@ -44,23 +44,25 @@ return require('packer').startup(function(use)
       require("telescope").load_extension("live_grep_args")
     end
   }
-  use {
-    'catppuccin/nvim',
-    config = function()
-      vim.opt.termguicolors = true
-      vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
-      require("catppuccin").setup()
-      vim.cmd("colorscheme catppuccin")
-    end
-  }
 
+  -- theme
   -- use {
-  --   'savq/melange-nvim',
+  --   'catppuccin/nvim',
   --   config = function()
-  --     vim.opt.termguicolors = true	
-  --     vim.cmd('colorscheme melange')
+  --     vim.opt.termguicolors = true
+  --     vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
+  --     require("catppuccin").setup()
+  --     vim.cmd("colorscheme catppuccin")
   --   end
   -- }
+
+  use {
+    'savq/melange-nvim',
+    config = function()
+      vim.opt.termguicolors = true	
+      vim.cmd('colorscheme melange')
+    end
+  }
 
   use {
     'VonHeikemen/lsp-zero.nvim',

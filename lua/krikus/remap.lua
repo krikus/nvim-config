@@ -26,8 +26,8 @@ end
 vim.keymap.set("n", "<leader>==", format_code)
 
 -- copy/paste system clipboard
-vim.keymap.set({"v", "n"}, "<leader>y", "\"*y", { desc = "Copy to system clipboard", silent = true });
-vim.keymap.set({"v", "n"}, "<leader>p", "\"*p", { desc = "Paste from system clipboard", silent = true });
+vim.keymap.set({"v", "n"}, "<leader>y", "\"+y", { desc = "Copy to system clipboard", silent = true });
+vim.keymap.set({"v", "n"}, "<leader>p", "\"+p", { desc = "Paste from system clipboard", silent = true });
 
 
 
