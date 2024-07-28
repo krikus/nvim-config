@@ -59,7 +59,7 @@ return require('packer').startup(function(use)
   use {
     'savq/melange-nvim',
     config = function()
-      vim.opt.termguicolors = true	
+      vim.opt.termguicolors = true
       vim.cmd('colorscheme melange')
     end
   }
@@ -161,7 +161,7 @@ return require('packer').startup(function(use)
   use("mg979/vim-visual-multi")
   use({
     'smoka7/hop.nvim',
-    tag = '*',     -- optional but strongly recommended
+    tag = '*', -- optional but strongly recommended
     config = function()
       -- you can configure Hop the way you like here; see :h hop-config
       require 'hop'.setup { keys = 'abcdefghijklmnopqrstuvwxyz' }
@@ -179,8 +179,8 @@ return require('packer').startup(function(use)
   use({
     'romgrk/barbar.nvim',
     requires = {
-      'lewis6991/gitsigns.nvim',         -- OPTIONAL: for git status
-      'nvim-tree/nvim-web-devicons',     -- OPTIONAL: for file icons
+      'lewis6991/gitsigns.nvim',     -- OPTIONAL: for git status
+      'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
     },
     config = function()
       vim.g.barbar_auto_setup = false
@@ -192,6 +192,15 @@ return require('packer').startup(function(use)
     ft = 'rust',
     config = function()
       vim.g.rustfmt_autosave = 1
+    end
+  })
+
+  use({
+    "kylechui/nvim-surround",
+    tag = "*",         -- Use for stability; omit to use `main` branch for the latest features
+    config = function()
+      require("nvim-surround").setup({
+      })
     end
   })
 end)
