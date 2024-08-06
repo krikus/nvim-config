@@ -33,6 +33,7 @@ require('mason-tool-installer').setup({
     'docker_compose_language_service', -- Docker Compose Language Server.
     'lua_ls',
     'harper-ls',
+    'python-lsp-server',
     'phpcs',
     'phpactor',
     'gopls',
