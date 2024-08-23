@@ -16,7 +16,7 @@ brew install php@8.0 composer
 ```
 
 ### Linux specific deps:
-(Nerdfonts 0xProto)[https://www.nerdfonts.com/font-downloads]
+(Nerdfonts 0xProto)[https://github.com/ryanoasis/nerd-fonts/releases]
 
 ## Setup
 Just clone into empty path as follows:
