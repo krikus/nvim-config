@@ -7,6 +7,8 @@ vim.keymap.set("n", "J", "mzJ`z")
 
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
+vim.keymap.set("n", "<C-w>=", "[[<C-w>20>]]")
+
 local format_code = function()
   local active_clients = vim.lsp.get_active_clients()
   local formatted = false
