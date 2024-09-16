@@ -25,7 +25,7 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protoc
 
 require('mason-tool-installer').setup({
   ensure_installed = {
-    'tsserver', -- JS and TS
+    'ts_ls', -- JS and TS
     { 'eslint', version = '4.8.0' },
     'fixjson',
     'rust_analyzer', -- Rust
@@ -133,8 +133,8 @@ require('mason-lspconfig').setup({
       local lua_opts = lsp_zero.nvim_lua_ls()
       lspconfig.lua_ls.setup(lua_opts)
     end,
-    tsserver = function()
-      lspconfig.tsserver.setup({
+    ts_ls = function()
+      lspconfig.ts_ls.setup({
         on_attach = on_attach,
         capabilities = capabilities,
         root_dir = require('lspconfig/util')
