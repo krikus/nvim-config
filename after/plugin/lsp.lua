@@ -11,6 +11,8 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
   vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
   vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+  vim.keymap.set("n", "[e", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end, opts)
+  vim.keymap.set("n", "]e", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, opts)
   vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end
@@ -24,7 +26,7 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protoc
 require('mason-tool-installer').setup({
   ensure_installed = {
     'tsserver', -- JS and TS
-    'eslint',
+    { 'eslint', version = '4.8.0' },
     'fixjson',
     'rust_analyzer', -- Rust
     'intelephense', -- PHP language server.
