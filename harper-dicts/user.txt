@@ -4,6 +4,8 @@ VM
 LSP
 len
 php
+JWT
+JWK
 nvim
 FIXME
 param

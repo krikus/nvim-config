@@ -5,7 +5,7 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 vim.keymap.set("n", "J", "mzJ`z")
 
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("n", "<leader>rg", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 vim.keymap.set("n", "<C-w>=", "[[<C-w>20>]]")
 
@@ -32,6 +32,8 @@ vim.keymap.set({"v", "n"}, "<leader>y", "\"+y", { desc = "Copy to system clipboa
 vim.keymap.set({"v", "n"}, "<leader>p", "\"+p", { desc = "Paste from system clipboard", silent = true });
 
 
-
+-- next prev error
+vim.keymap.set("n", "[e", function() vim.diagnostic.goto_prev({ severity = "ERROR", wrap = true }) end, { desc = "Go to prev error" })
+vim.keymap.set("n", "]e", function() vim.diagnostic.goto_prev({ severity = "ERROR", wrap = true }) end, { desc = "Go to next error" })
 
 

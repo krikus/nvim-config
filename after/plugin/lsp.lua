@@ -39,7 +39,8 @@ require('mason-tool-installer').setup({
     'phpcs',
     'phpactor',
     'gopls',
-    'goimports-reviser'
+    'goimports-reviser',
+    'yaml-language-server'
   }
 })
 -- to learn how to use mason.nvim with lsp-zero
