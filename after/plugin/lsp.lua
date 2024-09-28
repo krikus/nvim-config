@@ -3,7 +3,7 @@ local lspconfig = require('lspconfig')
 
 ---@diagnostic disable-next-line: unused-local
 local on_attach = function(client, bufnr)
-  local opts = {buffer = bufnr, remap = false}
+  local opts = { buffer = bufnr, remap = false }
   vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
   vim.keymap.set("n", "gr", function() vim.lsp.buf.references() end, opts)
   vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
@@ -25,17 +25,18 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protoc
 
 require('mason-tool-installer').setup({
   ensure_installed = {
+    'pyright',
     'ts_ls', -- JS and TS
     { 'eslint', version = '4.8.0' },
     'fixjson',
     'rust_analyzer', -- Rust
-    'intelephense', -- PHP language server.
+    'intelephense',  -- PHP language server.
     'dockerfile-language-server',
     'hadolint',
     'docker_compose_language_service', -- Docker Compose Language Server.
     'lua_ls',
     'harper-ls',
-    'python-lsp-server',
+    --'python-lsp-server',
     'phpcs',
     'phpactor',
     'gopls',
@@ -47,7 +48,6 @@ require('mason-tool-installer').setup({
 -- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
 
 
-
 lspconfig.intelephense.setup({
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
@@ -55,7 +55,7 @@ lspconfig.intelephense.setup({
     client.server_capabilities.documentRangeFormattingProvider = true
   end,
   capabilities = capabilities,
-  environment = {phpVersion = '7.4.33'},
+  environment = { phpVersion = '7.4.33' },
 })
 
 lspconfig.rust_analyzer.setup({
@@ -125,10 +125,11 @@ vim.api.nvim_create_autocmd('User', {
 })
 
 
+
 --- lets try putting this as last
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  handlers = {
+  hanlers = {
     lsp_zero.default_setup,
     lua_ls = function()
       local lua_opts = lsp_zero.nvim_lua_ls()
@@ -181,13 +182,28 @@ require('luasnip.loaders.from_vscode').lazy_load()
 
 cmp.setup({
   sources = {
-    {name = 'path'},
-    {name = 'nvim_lsp'},
-    {name = 'nvim_lua'},
-    {name = 'luasnip', keyword_length = 2},
-    {name = 'buffer', keyword_length = 3},
+    { name = 'path' },
+    { name = 'nvim_lsp', priority = 1000 },
+    { name = 'nvim_lua' },
+    { name = 'luasnip', keyword_length = 2 },
+    { name = 'buffer',  keyword_length = 3, priority = 500 },
   },
-  formatting = lsp_zero.cmp_format({details = false}),
+  sorting = {
+    priority_weight = 2,
+    comparators = {
+      cmp.config.compare.locality,
+      cmp.config.compare.recently_used,
+      cmp.config.compare.offset,
+      cmp.config.compare.exact,
+      cmp.config.compare.score,
+      require('cmp-under-comparator').under,
+      cmp.config.compare.kind,
+      cmp.config.compare.sort_text,
+      cmp.config.compare.length,
+      cmp.config.compare.order
+    }
+  }
+  formatting = lsp_zero.cmp_format({ details = false }),
   mapping = cmp.mapping.preset.insert({
     ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
     ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
@@ -197,8 +213,7 @@ cmp.setup({
 })
 
 -- vim.lsp.handlers['textDocument/signatureHelp']  = vim.lsp.with(vim.lsp.handlers['signature_help'], {
---     border = 'single',
---     close_events = { "CursorMoved", "BufHidden" },
--- })
-vim.keymap.set('i', '<c-k>', vim.lsp.buf.signature_help)
-
+  --     border = 'single',
+  --     close_events = { "CursorMoved", "BufHidden" },
+  -- })
+  vim.keymap.set('i', '<c-k>', vim.lsp.buf.signature_help)

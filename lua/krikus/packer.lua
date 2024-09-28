@@ -1,6 +1,7 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
+  use 'rcarriga/nvim-notify'
   use 'wbthomason/packer.nvim'
   use 'WhoIsSethDaniel/mason-tool-installer.nvim'
   use 'praem90/nvim-phpcsf'
@@ -56,6 +57,7 @@ return require('packer').startup(function(use)
   --   end
   -- }
 
+
   use {
     'savq/melange-nvim',
     config = function()
@@ -101,7 +103,7 @@ return require('packer').startup(function(use)
       vim.keymap.set('i', '<C-y>', function() return vim.fn['codeium#Accept']() end, { expr = true, silent = true })
       --- vim.keymap.set('i', '<c-]>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true, silent = true })
       vim.keymap.set('i', '<C-n>', function() return vim.fn['codeium#CycleCompletions'](1) end,
-        { expr = true, silent = true })
+      { expr = true, silent = true })
       vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true, silent = true })
     end
   })
@@ -206,4 +208,14 @@ return require('packer').startup(function(use)
       require("colorizer").setup()
     end
   })
+  use {
+    'HallerPatrick/py_lsp.nvim',
+    -- Support for versioning
+    -- tag = "v0.0.1" 
+    config = function()
+      require'py_lsp'.setup {
+        default_venv_name = ".venv" -- For local venv
+      }
+    end
+  }
 end)
