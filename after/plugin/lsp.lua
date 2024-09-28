@@ -1,6 +1,63 @@
 local lsp_zero = require('lsp-zero')
 local lspconfig = require('lspconfig')
 
+local cmp = require('cmp')
+local cmp_select = {
+  behavior = cmp.SelectBehavior.Select
+}
+
+local function ends_with_equals_comparator(entry1, entry2)
+  -- Function to check if the label of the entry ends with '='
+  local function ends_with_equals(entry)
+    local label = entry.completion_item.label or ""
+    return label:sub(-1) == "="
+  end
+
+  local entry1_ends_with_equals = ends_with_equals(entry1)
+  local entry2_ends_with_equals = ends_with_equals(entry2)
+
+  -- If entry1 ends with '=' and entry2 does not, entry1 should come first
+  if entry1_ends_with_equals and not entry2_ends_with_equals then
+    return true
+  elseif not entry1_ends_with_equals and entry2_ends_with_equals then
+    return false
+  end
+end
+
+
+cmp.setup({
+  sources = {
+    { name = 'path', score = 5 },
+    { name = 'nvim_lsp', score = 20 },
+    { name = 'nvim_lua', score = 15 },
+    { name = 'luasnip', score = 15 , keyword_length = 2 },
+    { name = 'buffer', score = 10,  keyword_length = 3 },
+  },
+  sorting = {
+    priority_weight = 1,
+    comparators = {
+      ends_with_equals_comparator,
+      require('cmp-under-comparator').under,
+      cmp.config.compare.recently_used,
+      cmp.config.compare.offset,
+      cmp.config.compare.exact,
+      cmp.config.compare.score,
+      cmp.config.compare.kind,
+      cmp.config.compare.sort_text,
+      cmp.config.compare.locality,
+      -- cmp.config.compare.length,
+      cmp.config.compare.order
+    }
+  },
+  formatting = lsp_zero.cmp_format({ details = false }),
+  mapping = cmp.mapping.preset.insert({
+    ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+    ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+    ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+    ['<C-Space>'] = cmp.mapping.complete(),
+  }),
+})
+
 ---@diagnostic disable-next-line: unused-local
 local on_attach = function(client, bufnr)
   local opts = { buffer = bufnr, remap = false }
@@ -170,47 +227,11 @@ require('mason-lspconfig').setup({
   }
 })
 
-local cmp = require('cmp')
-local cmp_select = {
-  behavior = cmp.SelectBehavior.Select
-}
 
 
 -- This is the function that loads the extra snippets to luasnip
 -- from rafamadriz/friendly-snippets
 require('luasnip.loaders.from_vscode').lazy_load()
-
-cmp.setup({
-  sources = {
-    { name = 'path' },
-    { name = 'nvim_lsp', priority = 1000 },
-    { name = 'nvim_lua' },
-    { name = 'luasnip', keyword_length = 2 },
-    { name = 'buffer',  keyword_length = 3, priority = 500 },
-  },
-  sorting = {
-    priority_weight = 2,
-    comparators = {
-      cmp.config.compare.locality,
-      cmp.config.compare.recently_used,
-      cmp.config.compare.offset,
-      cmp.config.compare.exact,
-      cmp.config.compare.score,
-      require('cmp-under-comparator').under,
-      cmp.config.compare.kind,
-      cmp.config.compare.sort_text,
-      cmp.config.compare.length,
-      cmp.config.compare.order
-    }
-  }
-  formatting = lsp_zero.cmp_format({ details = false }),
-  mapping = cmp.mapping.preset.insert({
-    ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-    ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-    ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-    ['<C-Space>'] = cmp.mapping.complete(),
-  }),
-})
 
 -- vim.lsp.handlers['textDocument/signatureHelp']  = vim.lsp.with(vim.lsp.handlers['signature_help'], {
   --     border = 'single',
