@@ -211,8 +211,6 @@ return require('packer').startup(function(use)
       })
       use {
         'HallerPatrick/py_lsp.nvim',
-        -- Support for versioning
-        -- tag = "v0.0.1" 
         config = function()
           require'py_lsp'.setup {
             default_venv_name = ".venv" -- For local venv
@@ -220,3 +218,4 @@ return require('packer').startup(function(use)
         end
       }
     end)
+

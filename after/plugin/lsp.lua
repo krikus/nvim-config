@@ -186,7 +186,7 @@ vim.api.nvim_create_autocmd('User', {
 --- lets try putting this as last
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  hanlers = {
+  handlers = {
     lsp_zero.default_setup,
     lua_ls = function()
       local lua_opts = lsp_zero.nvim_lua_ls()

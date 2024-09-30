@@ -13,7 +13,9 @@ neovim
 eslint
 autocmd
 macchiato
+Instapage
 colorscheme
 Autocompletion
+programmatically
 documentFormattingProvider
 documentRangeFormattingProvider
