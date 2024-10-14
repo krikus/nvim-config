@@ -15,6 +15,7 @@ autocmd
 macchiato
 Instapage
 colorscheme
+Unprocessable
 Autocompletion
 programmatically
 documentFormattingProvider
