@@ -1,6 +1,9 @@
 local lsp_zero = require('lsp-zero')
 local lspconfig = require('lspconfig')
-
+-- if notify package exists, use it
+if require('notify') then
+  vim.notify = require("notify")
+end
 local cmp = require('cmp')
 local cmp_select = {
   behavior = cmp.SelectBehavior.Select
@@ -27,11 +30,11 @@ end
 
 cmp.setup({
   sources = {
-    { name = 'path', score = 5 },
+    { name = 'path',     score = 5 },
     { name = 'nvim_lsp', score = 20 },
     { name = 'nvim_lua', score = 15 },
-    { name = 'luasnip', score = 15 , keyword_length = 2 },
-    { name = 'buffer', score = 10,  keyword_length = 3 },
+    { name = 'luasnip',  score = 15, keyword_length = 2 },
+    { name = 'buffer',   score = 10, keyword_length = 3 },
   },
   sorting = {
     priority_weight = 1,
@@ -57,7 +60,7 @@ cmp.setup({
     ['<C-Space>'] = cmp.mapping.complete(),
   }),
 })
-
+require("lsp-inlayhints").setup()
 ---@diagnostic disable-next-line: unused-local
 local on_attach = function(client, bufnr)
   local opts = { buffer = bufnr, remap = false }
@@ -72,17 +75,20 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "]e", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, opts)
   vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+  require("lsp-inlayhints").on_attach(client, bufnr)
 end
 
 lsp_zero.on_attach = on_attach
 
 -- https://github.com/MannyFay/nvim/blob/main/nvim/lua/user/plugin_options/lspconfig.lua#L48
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
+capabilities.textDocument.inlayHint = {
+  dynamicRegistration = true,
+}
 
 require('mason-tool-installer').setup({
   ensure_installed = {
-    'pyright',
+    'basedpyright',
     'ts_ls', -- JS and TS
     { 'eslint', version = '4.8.0' },
     'fixjson',
@@ -181,7 +187,29 @@ vim.api.nvim_create_autocmd('User', {
   end,
 })
 
+-- Helper function to set pyenv environment
+local function set_pyenv_env()
+  -- Capture the output of `pyenv version-name`
+  local handle = io.popen("pyenv version-name")
+  if handle == nil then
+    return nil
+  end
+  local pyenv_version = handle:read("*a"):gsub("%s+", "") -- Remove trailing whitespace
+  handle:close()
+end
 
+local function get_python_path(workspace)
+  -- Use the `.venv/bin/python` path if it exists
+  local venv_path = workspace .. '/.venv/bin/python'
+  local file = io.open(venv_path, "r")
+  if file then
+    file:close()
+    return venv_path
+  else
+    -- Fall back to system Python if `.venv` not found
+    return vim.fn.exepath('python3') or vim.fn.exepath('python') or 'python'
+  end
+end
 
 --- lets try putting this as last
 require('mason').setup({})
@@ -192,18 +220,45 @@ require('mason-lspconfig').setup({
       local lua_opts = lsp_zero.nvim_lua_ls()
       lspconfig.lua_ls.setup(lua_opts)
     end,
+    basedpyright = function()
+      lspconfig.basedpyright.setup {
+        on_attach = function(c, b)
+          set_pyenv_env()
+          on_attach(c, b)
+          vim.notify("Python path being used: " .. get_python_path(vim.fn.getcwd()), "info", { title = "BasedPyright" })
+        end,
+        capabilities = capabilities,
+        settings = {
+          python = {
+            pythonPath = get_python_path(vim.fn.getcwd()),
+            venvPath = vim.fn.getcwd(),
+            venv = '.venv',
+            analysis = {
+              typeCheckingMode = "basic",   -- or "strict"
+              autoImportCompletions = true, -- Optional, enables auto-import suggestions
+            }
+          },
+        },
+        root_dir = require('lspconfig/util')
+            .root_pattern(
+              '.venv',
+              'poetry.lock',
+              'pyproject.toml'
+            )
+      }
+    end,
     ts_ls = function()
       lspconfig.ts_ls.setup({
         on_attach = on_attach,
         capabilities = capabilities,
         root_dir = require('lspconfig/util')
-        .root_pattern(
-        'package.json',
-        'tsconfig.json',
-        'jsconfig.json',
-        '.git',
-        'node_modules'
-        ),
+            .root_pattern(
+              'node_modules',
+              'package.json',
+              'tsconfig.json',
+              'jsconfig.json',
+              '.git'
+            ),
       })
     end,
     eslint = function()
@@ -212,16 +267,16 @@ require('mason-lspconfig').setup({
           workingDirectory = { mode = 'location' },
         },
         root_dir = require('lspconfig/util')
-        .root_pattern(
-        'package.json',
-        'tsconfig.json',
-        'jsconfig.json',
-        '.git',
-        'eslintrc.js',
-        'eslint.js',
-        '.eslintrc',
-        'node_modules'
-        ),
+            .root_pattern(
+              'package.json',
+              'tsconfig.json',
+              'jsconfig.json',
+              '.git',
+              'eslintrc.js',
+              'eslint.js',
+              '.eslintrc',
+              'node_modules'
+            ),
       })
     end,
   }
@@ -234,7 +289,7 @@ require('mason-lspconfig').setup({
 require('luasnip.loaders.from_vscode').lazy_load()
 
 -- vim.lsp.handlers['textDocument/signatureHelp']  = vim.lsp.with(vim.lsp.handlers['signature_help'], {
-  --     border = 'single',
-  --     close_events = { "CursorMoved", "BufHidden" },
-  -- })
-  vim.keymap.set('i', '<c-k>', vim.lsp.buf.signature_help)
+--     border = 'single',
+--     close_events = { "CursorMoved", "BufHidden" },
+-- })
+vim.keymap.set('i', '<c-k>', vim.lsp.buf.signature_help)
