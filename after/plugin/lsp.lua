@@ -196,6 +196,9 @@ local function set_pyenv_env()
   end
   local pyenv_version = handle:read("*a"):gsub("%s+", "") -- Remove trailing whitespace
   handle:close()
+
+  -- Set the `PYENV_VERSION` environment variable
+  os.execute("export PYENV_VERSION=" .. pyenv_version)
 end
 
 local function get_python_path(workspace)
@@ -236,6 +239,9 @@ require('mason-lspconfig').setup({
             analysis = {
               typeCheckingMode = "basic",   -- or "strict"
               autoImportCompletions = true, -- Optional, enables auto-import suggestions
+              extraPaths = {
+                vim.fn.getcwd() .. '/.venv/lib/python3.10/site-packages',
+              },
             }
           },
         },
