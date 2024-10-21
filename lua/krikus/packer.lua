@@ -1,6 +1,7 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
+  use 'jeetsukumaran/vim-indentwise'
   use {
     "lvimuser/lsp-inlayhints.nvim",
     branch = "anticonceal",
