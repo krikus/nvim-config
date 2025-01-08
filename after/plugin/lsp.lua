@@ -118,7 +118,7 @@ lspconfig.intelephense.setup({
     client.server_capabilities.documentRangeFormattingProvider = true
   end,
   capabilities = capabilities,
-  environment = { phpVersion = '7.4.33' },
+  environment = { phpVersion = '8.2' },
 })
 
 lspconfig.rust_analyzer.setup({
