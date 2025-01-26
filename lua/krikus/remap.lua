@@ -17,11 +17,16 @@ local format_code = function()
     if client.server_capabilities.documentFormattingProvider then
       vim.lsp.buf.format({ timeout_ms = 1000 })
       formatted = true
+    end
+    -- check if eslint can be used to fix the code
+    if client.name == "eslint" then
+      vim.lsp.buf.format({ timeout_ms = 1000 })
+      formatted = true
       break
     end
-    if not formatted then
-      vim.cmd("normal! mzgg=G`zzz")
-    end
+  end
+  if not formatted then
+    vim.cmd("normal! mzgg=G`zzz")
   end
 end
 
