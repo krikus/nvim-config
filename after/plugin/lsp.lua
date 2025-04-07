@@ -75,7 +75,11 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "]e", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, opts)
   vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
-  require("lsp-inlayhints").on_attach(client, bufnr)
+  -- detect if client supports inlay hints
+  client.server_capabilities.inlayHintProvider = client.server_capabilities.inlayHintProvider or false
+  if client.server_capabilities.inlayHintProvider then
+    require("lsp-inlayhints").on_attach(client, bufnr)
+  end
 end
 
 lsp_zero.on_attach = on_attach

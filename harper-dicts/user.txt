@@ -15,6 +15,7 @@ eslint
 autocmd
 macchiato
 Instapage
+Changelog
 colorscheme
 Unprocessable
 Autocompletion
