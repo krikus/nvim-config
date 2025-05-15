@@ -1,6 +1,7 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
+  use 'editorconfig/editorconfig-vim'
   use 'windwp/nvim-ts-autotag'
   use 'jeetsukumaran/vim-indentwise'
   use {
