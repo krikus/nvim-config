@@ -15,7 +15,6 @@ return {
   require("plugins.smartcolumn"),
   require("plugins.visual-whitespace"),
   require("plugins.telescope"),
-  require("plugins.theme"),
   require("plugins.lsp-zero"),
   require("plugins.treesitter"),
   require("plugins.harpoon"),
@@ -34,4 +33,5 @@ return {
   require("plugins.rust"),
   require("plugins.surround"),
   require("plugins.colorizer"),
+  require("plugins.themery"),
 }

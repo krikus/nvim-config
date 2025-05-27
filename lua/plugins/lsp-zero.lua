@@ -22,9 +22,6 @@ return {
     -- Optional: Under comparator for cmp sorting
     "lukas-reineke/cmp-under-comparator",
 
-    -- Optional: Notification manager if you want it
-    "rcarriga/nvim-notify",
-
     -- Mason tool installer for auto installing servers
 
     "WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -33,11 +30,6 @@ return {
     local lsp_zero = require("lsp-zero")
     local lspconfig = require("lspconfig")
     local cmp = require("cmp")
-
-    -- Use notify if available
-    if pcall(require, "notify") then
-      vim.notify = require("notify")
-    end
 
     -- Custom comparator for cmp sorting (prioritize entries ending with '=')
     local function ends_with_equals_comparator(entry1, entry2)
