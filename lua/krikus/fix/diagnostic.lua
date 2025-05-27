@@ -11,7 +11,7 @@ vim.diagnostic.config({
 
 
 local set = vim.keymap.set
-local opts = { remap = true, bufnr = -1 }
+local opts = { remap = true, buffer = -1 }
 set("n", "<leader>vd", vim.diagnostic.open_float, opts)
 set("n", "[d", vim.diagnostic.goto_next, opts)
 set("n", "]d", vim.diagnostic.goto_prev, opts)

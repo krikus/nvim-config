@@ -26,6 +26,7 @@ return {
     "rcarriga/nvim-notify",
 
     -- Mason tool installer for auto installing servers
+
     "WhoIsSethDaniel/mason-tool-installer.nvim",
   },
   config = function()
@@ -53,11 +54,11 @@ return {
     -- Setup cmp with sources and sorting
     cmp.setup({
       sources = {
-        { name = "path", score = 5 },
+        { name = "path",     score = 5 },
         { name = "nvim_lsp", score = 20 },
         { name = "nvim_lua", score = 15 },
-        { name = "luasnip", score = 15, keyword_length = 2 },
-        { name = "buffer", score = 10, keyword_length = 3 },
+        { name = "luasnip",  score = 15, keyword_length = 2 },
+        { name = "buffer",   score = 10, keyword_length = 3 },
       },
       sorting = {
         priority_weight = 1,
@@ -104,28 +105,30 @@ return {
     local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
     capabilities.textDocument.inlayHint = { dynamicRegistration = true }
 
-    -- Setup mason-tool-installer to ensure servers installed
-    require("mason-tool-installer").setup({
-      ensure_installed = {
-        "basedpyright",
-        "ts_ls",
-        { "eslint", version = "4.8.0" },
-        "fixjson",
-        "rust_analyzer",
-        "intelephense",
-        "dockerfile-language-server",
-        "hadolint",
-        "docker_compose_language_service",
-        "lua_ls",
-        "harper-ls",
-        "phpcs",
-        "phpactor",
-        "gopls",
-        "goimports-reviser",
-        "yaml-language-server",
-      },
-    })
-
+    vim.schedule(function()
+      -- Setup mason-tool-installer to ensure servers installed
+      require("mason-tool-installer").setup({
+        ensure_installed = {
+          "basedpyright",
+          "ts_ls",
+          { "eslint", version = "4.8.0" },
+          "fixjson",
+          "rust_analyzer",
+          "intelephense",
+          "dockerfile-language-server",
+          "hadolint",
+          "docker_compose_language_service",
+          "lua_ls",
+          "harper-ls",
+          "phpcs",
+          "phpactor",
+          "gopls",
+          "goimports-reviser",
+          "yaml-language-server",
+        }
+      })
+    end)
+    --
     -- Custom functions for Python path detection
     local function set_pyenv_env()
       local handle = io.popen("pyenv version-name")
@@ -146,7 +149,7 @@ return {
     end
 
     -- Mason and Mason-lspconfig setup with handlers for servers
-    require("mason").setup({})
+    require("mason").setup()
     require("mason-lspconfig").setup({
       handlers = {
         lsp_zero.default_setup,
@@ -205,6 +208,29 @@ return {
             ),
           })
         end,
+        harper_ls = function()
+          lspconfig.harper_ls.setup({
+            on_attach = on_attach,
+            capabilities = capabilities,
+            settings = {
+              ["harper-ls"] = {
+                userDictPath = config_path .. "/harper-dicts/user.txt",
+                linters = {
+                  spell_check = true,
+                  spelled_numbers = false,
+                  an_a = true,
+                  sentence_capitalization = false,
+                  unclosed_quotes = true,
+                  wrong_quotes = false,
+                  long_sentences = true,
+                  repeated_words = true,
+                  spaces = true,
+                  matcher = true,
+                },
+              },
+            },
+          })
+        end,
       },
     })
 
@@ -238,27 +264,6 @@ return {
       pattern = "MasonToolsUpdateCompleted",
       callback = function(e)
         vim.schedule(function()
-          lspconfig.harper_ls.setup({
-            on_attach = on_attach,
-            capabilities = capabilities,
-            settings = {
-              ["harper-ls"] = {
-                userDictPath = config_path .. "/harper-dicts/user.txt",
-                linters = {
-                  spell_check = true,
-                  spelled_numbers = false,
-                  an_a = true,
-                  sentence_capitalization = false,
-                  unclosed_quotes = true,
-                  wrong_quotes = false,
-                  long_sentences = true,
-                  repeated_words = true,
-                  spaces = true,
-                  matcher = true,
-                },
-              },
-            },
-          })
           if e.data then
             for _, v in pairs(e.data) do
               print("installed: " .. v)

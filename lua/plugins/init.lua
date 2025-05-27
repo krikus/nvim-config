@@ -8,7 +8,6 @@ return {
   require("plugins.inlayhints"),
   require("plugins.cmp-under-comparator"),
   require("plugins.notify"),
-  require("plugins.mason-tool-installer"),
   require("plugins.phpcsf"),
   require("plugins.indent-blankline"),
   require("plugins.spectre"),

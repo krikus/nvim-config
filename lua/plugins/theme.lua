@@ -1,14 +1,17 @@
+local M = {}
+
+M.change_theme = function(theme)
+  vim.cmd.colorscheme(theme)
+
+  -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+  -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+end
+
 return {
-  "savq/melange-nvim",
+--   "savq/melange-nvim",
+  "mellow-theme/mellow.nvim",
   config = function()
-    local function ColorMyTerm(color)
-      color = color or "melange"
-      vim.cmd.colorscheme(color)
-
-      vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-    end
-
-    ColorMyTerm()
-  end,
+    -- vim.g.mellow_transparent = true
+    M.change_theme("mellow")
+  end
 }
