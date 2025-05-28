@@ -20,7 +20,7 @@ local function run_goimports_reviser()
     "goimports-reviser",
     "-rm-unused",
     "-set-alias",
-    "-format", -- Ensures clean stdout output
+    "-format",
     "-output", "stdout",
     filepath,
   }
@@ -37,17 +37,16 @@ local function run_goimports_reviser()
     return
   end
 
-  -- Replace buffer content safely
   local view = vim.fn.winsaveview()
 
-  print(result)
   result = skipWhile(result, function(line) return line:match("^[0-9]+") ~= nil end)
   vim.api.nvim_buf_set_lines(0, 0, -1, false, result)
   vim.fn.winrestview(view)
+  vim.cmd("noautocmd write")
 end
 
 return function(_, _, _)
-  vim.api.nvim_create_autocmd("BufWritePre", {
+  vim.api.nvim_create_autocmd("BufWritePost", {
     pattern = "*.go",
     callback = run_goimports_reviser,
   })

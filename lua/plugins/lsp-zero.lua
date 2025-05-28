@@ -92,14 +92,14 @@ return {
         "ts_ls",
         "gopls",
         "goimports-reviser",
-        -- not configured yet
         "fixjson",
+        "yaml-language-server",
+        -- not configured yet
         "dockerfile-language-server",
         "hadolint",
         "docker_compose_language_service",
         "phpcs",
         "phpactor",
-        "yaml-language-server",
       }
     })
 
@@ -116,6 +116,8 @@ return {
       require('plugins.lsp.rust_analyzer'),
       require('plugins.lsp.gopls'),
       require('plugins.lsp.goimports-reviser'),
+      require('plugins.lsp.fixjson'),
+      require('plugins.lsp.yaml_ls'),
     }
 
     for _, lspServer in ipairs(local_lsp) do
