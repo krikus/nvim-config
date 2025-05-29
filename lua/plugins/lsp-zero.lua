@@ -83,23 +83,24 @@ return {
     require("mason").setup()
     require("mason-tool-installer").setup({
       ensure_installed = {
-        "lua_ls",
         "basedpyright",
+        "docker_compose_language_service",
+        "dockerfile-language-server",
         "eslint",
+        "goimports-reviser",
+        "gopls",
         "harper-ls",
         "intelephense",
+        "lua_ls",
+        "phpactor",
         "rust_analyzer",
         "ts_ls",
-        "gopls",
-        "goimports-reviser",
+        -- Configured but can be ported to null-ls
         "fixjson",
         "yaml-language-server",
-        -- not configured yet
-        "dockerfile-language-server",
-        "hadolint",
-        "docker_compose_language_service",
+        -- Not configured yet
         "phpcs",
-        "phpactor",
+        "hadolint",
       }
     })
 
@@ -118,6 +119,9 @@ return {
       require('plugins.lsp.goimports-reviser'),
       require('plugins.lsp.fixjson'),
       require('plugins.lsp.yaml_ls'),
+      require('plugins.lsp.dockerls'),
+      require('plugins.lsp.docker_compose_ls'),
+      require('plugins.lsp.phpactor'),
     }
 
     for _, lspServer in ipairs(local_lsp) do
