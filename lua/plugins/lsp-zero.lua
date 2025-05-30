@@ -104,29 +104,37 @@ return {
       }
     })
 
+    -- Autoinit all lsp in lsp/ dir
+    local lsp_dir = vim.fn.globpath(vim.fn.expand("<sfile>:p:h"), "lua/lsp/*.lua")
+    local local_lsp = {}
 
-    local local_lsp = {
-      function(_, _, _)
-        lspconfig.lua_ls.setup(lsp_zero.nvim_lua_ls())
-      end,
-      require('plugins.lsp.basedpyright'),
-      require('plugins.lsp.ts_ls'),
-      require('plugins.lsp.eslint'),
-      require('plugins.lsp.harper_ls'),
-      require('plugins.lsp.intelephense'),
-      require('plugins.lsp.rust_analyzer'),
-      require('plugins.lsp.gopls'),
-      require('plugins.lsp.goimports-reviser'),
-      require('plugins.lsp.fixjson'),
-      require('plugins.lsp.yaml_ls'),
-      require('plugins.lsp.dockerls'),
-      require('plugins.lsp.docker_compose_ls'),
-      require('plugins.lsp.phpactor'),
-    }
+    if lsp_dir == "" then
+      vim.notify("No LSP files found in lsp/ directory.", vim.log.levels.WARN)
+      return -- Exit if no files found
+    end
+
+    -- Split the comma-separated list of files into a table
+    local lsp_files = vim.split(lsp_dir, "\n")
+
+    for _, lsp in ipairs(lsp_files) do
+      lsp = vim.trim(lsp) -- Remove leading/trailing whitespace
+      local lsp_name = vim.fn.fnamemodify(lsp, ":t:r")
+      local status, result = pcall(require, "../lsp." .. lsp_name)
+      if status then
+        table.insert(local_lsp, result)
+      else
+        vim.notify("Error loading LSP: " .. lsp_name .. " - " .. result, vim.log.levels.ERROR)
+      end
+    end
+
+    if #local_lsp == 0 then
+      vim.notify("No LSP servers loaded.", vim.log.levels.WARN)
+    end
 
     for _, lspServer in ipairs(local_lsp) do
       lspServer(lspconfig, on_attach, capabilities)
     end
+    -- Autoinit STOP
 
     vim.api.nvim_create_autocmd("User", {
       pattern = "MasonToolsUpdateCompleted",
