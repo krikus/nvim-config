@@ -32,12 +32,6 @@ sudo apt update
 sudo apt install neovim
 ```
 
-Install Packer
+Install all
 
-```
-git clone --depth 1 https://github.com/wbthomason/packer.nvim\
-  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-```
-
-Open neovim and type `:PackerInstall` (`:PackerSync`)
-
+`Lazy`
