@@ -20,7 +20,7 @@ return {
           -- string with model name or table with model name and parameters
           model = { model = "gemini-2.0-flash", temperature = 1.1, top_p = 1 },
           -- system prompt (use this to specify the persona/role of the AI)
-          system_prompt = require("gp.defaults").chat_system_prompt,
+          system_prompt = require("gp.defaults").chat_system_prompt .. "Please be very specific and unless told do not give much explanation. Be as short as possible to answer the question!",
         },
         {
           provider = "googleai",
