@@ -35,3 +35,10 @@ sudo apt install neovim
 Install all
 
 `Lazy`
+
+### Plugin specific deps
+
+#### Go
+
+- `go install -v github.com/incu6us/goimports-reviser/v3@latest`
+
