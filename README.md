@@ -42,3 +42,11 @@ Install all
 
 - `go install -v github.com/incu6us/goimports-reviser/v3@latest`
 
+#### Gitlab review
+
+Needs access to following envs:
+
+```bash
+export GITLAB_TOKEN="your_gitlab_token"
+export GITLAB_URL="https://my-personal-gitlab-instance.com/"
+```
