@@ -17,7 +17,13 @@ return {
 
     local builtin = require("telescope.builtin")
 
-    vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
+    local function find_files_no_zip(opts)
+      opts = opts or {}
+      opts.find_command = { "rg", "--files", "--glob", "!*.zip" }
+      builtin.find_files(opts)
+    end
+
+    vim.keymap.set("n", "<leader>ff", find_files_no_zip, {})
     vim.keymap.set("n", "<C-p>", builtin.git_files, {})
     vim.keymap.set("n", "<leader>fg", function()
       telescope.extensions.live_grep_args.live_grep_args()
