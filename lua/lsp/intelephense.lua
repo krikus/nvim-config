@@ -1,5 +1,5 @@
-return function(lspconfig, on_attach, capabilities)
-  lspconfig.intelephense.setup({
+return function(on_attach, capabilities)
+  vim.lsp.config('intelephense', {
     on_attach = function(client, bufnr)
       on_attach(client, bufnr)
       client.server_capabilities.documentFormattingProvider = true
@@ -8,4 +8,6 @@ return function(lspconfig, on_attach, capabilities)
     capabilities = capabilities,
     environment = { phpVersion = "8.2" },
   })
+
+  vim.lsp.enable('intelephense');
 end

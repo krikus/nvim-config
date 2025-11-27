@@ -1,7 +1,7 @@
 local config_path = vim.fn.stdpath("config")
 
-return function(lspconfig, on_attach, capabilities)
-  lspconfig.harper_ls.setup({
+return function(on_attach, capabilities)
+  vim.lsp.config('harper_ls', {
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {
@@ -22,4 +22,6 @@ return function(lspconfig, on_attach, capabilities)
       },
     },
   })
+
+  vim.lsp.enable('harper_ls');
 end

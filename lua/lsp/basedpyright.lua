@@ -16,8 +16,8 @@ local function get_python_path(workspace)
   return vim.fn.exepath("python3") or vim.fn.exepath("python") or "python"
 end
 
-return function(lspconfig, capabilities, on_attach)
-  lspconfig.basedpyright.setup({
+return function(capabilities, on_attach)
+  vim.lsp.config('basedpyright', {
     on_attach = function(client, bufnr)
       set_pyenv_env()
       on_attach(client, bufnr)
@@ -38,4 +38,6 @@ return function(lspconfig, capabilities, on_attach)
     },
     root_dir = require("lspconfig/util").root_pattern(".venv", "poetry.lock", "pyproject.toml"),
   })
+
+  vim.lsp.enable('basedpyright');
 end

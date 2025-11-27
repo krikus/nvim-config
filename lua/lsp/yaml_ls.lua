@@ -1,5 +1,5 @@
-return function(lspconfig, on_attach, capabilities)
-  lspconfig.yamlls.setup({
+return function(on_attach, capabilities)
+  vim.lsp.config('yamlls', {
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {
@@ -19,4 +19,6 @@ return function(lspconfig, on_attach, capabilities)
       },
     },
   })
+
+  vim.lsp.enable('yamlls');
 end

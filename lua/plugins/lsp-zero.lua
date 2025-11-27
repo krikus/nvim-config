@@ -18,7 +18,6 @@ return {
   },
   config = function()
     local lsp_zero = require("lsp-zero")
-    local lspconfig = require("lspconfig")
     local cmp = require("cmp")
     local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
     capabilities.textDocument.inlayHint = { dynamicRegistration = true }
@@ -132,8 +131,10 @@ return {
     end
 
     for _, lspServer in ipairs(local_lsp) do
-      lspServer(lspconfig, on_attach, capabilities)
+      lspServer(on_attach, capabilities)
     end
+
+    require("mason-lspconfig").setup()
     -- Autoinit STOP
 
     vim.api.nvim_create_autocmd("User", {

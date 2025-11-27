@@ -1,5 +1,5 @@
-return function(lspconfig, on_attach, capabilities)
-  lspconfig.gopls.setup({
+return function(on_attach, capabilities)
+  vim.lsp.config('gopls', {
     on_attach = on_attach,
     capabilities = capabilities,
     cmd = { "gopls" }, -- Optional: explicitly set the command if needed
@@ -26,4 +26,6 @@ return function(lspconfig, on_attach, capabilities)
       },
     },
   })
+
+  vim.lsp.enable('gopls');
 end
