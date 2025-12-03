@@ -36,7 +36,7 @@ return function(capabilities, on_attach)
         },
       },
     },
-    root_dir = require("lspconfig/util").root_pattern(".venv", "poetry.lock", "pyproject.toml"),
+    root_markers = { ".venv", "poetry.lock", "pyproject.toml" },
   })
 
   vim.lsp.enable('basedpyright');

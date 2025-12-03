@@ -1,9 +1,7 @@
 return {
-  "VonHeikemen/lsp-zero.nvim",
-  branch = "v3.x",
+  "williamboman/mason.nvim",
   dependencies = {
     "neovim/nvim-lspconfig",
-    "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     "hrsh7th/nvim-cmp",
@@ -17,7 +15,6 @@ return {
     "lukas-reineke/cmp-under-comparator",
   },
   config = function()
-    local lsp_zero = require("lsp-zero")
     local cmp = require("cmp")
     local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
     capabilities.textDocument.inlayHint = { dynamicRegistration = true }
@@ -56,7 +53,6 @@ return {
           cmp.config.compare.order,
         },
       },
-      formatting = lsp_zero.cmp_format({ details = false }),
       mapping = cmp.mapping.preset.insert({
         ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
         ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
