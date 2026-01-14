@@ -32,12 +32,21 @@ sudo apt update
 sudo apt install neovim
 ```
 
-Install Packer
+Install all
 
+`Lazy`
+
+### Plugin specific deps
+
+#### Go
+
+- `go install -v github.com/incu6us/goimports-reviser/v3@latest`
+
+#### Gitlab review
+
+Needs access to following envs:
+
+```bash
+export GITLAB_TOKEN="your_gitlab_token"
+export GITLAB_URL="https://my-personal-gitlab-instance.com/"
 ```
-git clone --depth 1 https://github.com/wbthomason/packer.nvim\
-  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-```
-
-Open neovim and type `:PackerInstall` (`:PackerSync`)
-
